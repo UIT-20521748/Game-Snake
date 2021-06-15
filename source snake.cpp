@@ -2,6 +2,7 @@
 #include <conio.h>
 #include <time.h>
 #include <Windows.h>
+#include <ctime>
 #define consoleWidth 25
 #define consoleHeight 25
 using namespace std;
@@ -18,6 +19,18 @@ struct ToaDo {
 	int x;
 	int y;
 };
+struct Moi {
+	ToaDo td;
+};
+int Random() {
+	srand(time(NULL));
+	int x = rand() % 23 + 3;
+	return x;
+}
+void KhoitaoMoi(Moi& moi) {
+	moi.td.x = Random();
+	moi.td.y = Random();
+}
 class Snake {
 protected:
 	ToaDo diem[101];
@@ -34,7 +47,7 @@ public:
 	}
 	void Ve();
 	void DieuKhien();
-	int Xuly(int&);
+	int Xuly(int&, Moi& moi);
 };
 void Snake::Ve() {
 	system("cls");
@@ -74,17 +87,25 @@ void Snake::DieuKhien() {
 	else	if (tt == 3)//right
 		diem[0].x++;
 }
-int Snake::Xuly(int& thoigian) {
+int Snake::Xuly(int& thoigian, Moi& moi) {
 	for (int i = 1; i < n; i++)
 		if (diem[0].x == diem[i].x && diem[0].y == diem[i].y)
 			return -1;
 	return 1;
+	if (diem[0].x == moi.td.x && diem[0].y == moi.td.y) {
+		diem[0] = moi.td;
+		n++;
+		KhoitaoMoi(moi);
+		if (thoigian > 50)
+			thoigian -= 10;
+	}
 }
 int main() {
 	int ma;
 	int thoigian = 100;
 	srand(time(NULL));
 	Snake snake;
+	Moi moi;
 	cout << "\n Xin chao cac ban! :)))\n Bang dieu khien: a,w,s,d nha.";
 	_getch();
 	while (1) {
@@ -94,7 +115,7 @@ int main() {
 		//dieu khien
 		snake.DieuKhien();
 		// xu ly
-		ma = snake.Xuly(thoigian);
+		ma = snake.Xuly(thoigian, moi);
 		// thua,thang
 		if (ma == -1) {
 			gotoxy(consoleWidth + 1, 10);
@@ -105,6 +126,6 @@ int main() {
 		// toc do game
 		Sleep(thoigian);
 	}
-	
+
 	return 0;
 }
