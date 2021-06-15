@@ -51,6 +51,19 @@ public:
 };
 void Snake::Ve() {
 	system("cls");
+	//Khung
+	TextColor(7);
+	for (int i = 0; i <= consoleHeight; i++) {
+		gotoxy(consoleHeight, i);
+		putchar(219);
+		putchar(219);
+	}
+	TextColor(7);
+	for (int i = 0; i <= consoleWidth; i++) {
+		gotoxy(i, consoleWidth);
+		putchar(219);
+	}
+
 	TextColor(13);
 	gotoxy(diem[0].x, diem[0].y);
 	putchar(219);
@@ -88,6 +101,9 @@ void Snake::DieuKhien() {
 		diem[0].x++;
 }
 int Snake::Xuly(int& thoigian, Moi& moi) {
+	// snake cham khung
+	if (diem[0].x < 0 || diem[0].x >= consoleWidth || diem[0].y < 0 || diem[0].y >= consoleHeight)
+		return -1;
 	for (int i = 1; i < n; i++)
 		if (diem[0].x == diem[i].x && diem[0].y == diem[i].y)
 			return -1;
@@ -102,7 +118,7 @@ int Snake::Xuly(int& thoigian, Moi& moi) {
 }
 int main() {
 	int ma;
-	int thoigian = 100;
+	int thoigian = 200;
 	srand(time(NULL));
 	Snake snake;
 	Moi moi;
