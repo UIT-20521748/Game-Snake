@@ -154,5 +154,6 @@ int main() {
 		// toc do game
 		Sleep(thoigian);
 	}
+	system("pause");
 	return 0;
 }
